@@ -79,3 +79,6 @@ typings/
 
 # Build out dir
 dist
+
+# Vagrant
+.vagrant
