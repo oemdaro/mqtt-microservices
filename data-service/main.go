@@ -112,6 +112,6 @@ func main() {
 	// Exiting
 	<-done
 	wg.Wait()
-	log.Println("Successfully shutdown")
+	log.Println("Shut down completed")
 	os.Exit(0)
 }
