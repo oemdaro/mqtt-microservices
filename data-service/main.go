@@ -10,21 +10,20 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv/autoload"
 	"gopkg.in/Shopify/sarama.v1"
 )
 
 var (
 	// Brokers the kafka broker connection string
-	Brokers *string
+	Brokers = flag.String("brokers", os.Getenv("KAFKA_PEERS"), "The Kafka brokers to connect to, as a comma separated list")
 	// MaxQueue max number of queue
-	MaxQueue *string
+	MaxQueue = flag.String("max-queue", os.Getenv("MAX_QUEUE"), "The maximum queues")
 	// MaxWorker max number of workers
-	MaxWorker *string
+	MaxWorker = flag.String("max-worker", os.Getenv("MAX_WORKER"), "The maximum workers")
 	// Verbose use to turn on Sarama logging
-	Verbose *bool
-	// signals we want to gracefully shutdown
-	// when it receives a SIGTERM or SIGINT
+	Verbose = flag.Bool("verbose", false, "Turn on Sarama logging")
+	// signals we want to gracefully shutdown when it receives a SIGTERM or SIGINT
 	signals = make(chan os.Signal, 1)
 	done    = make(chan bool, 1)
 )
@@ -42,15 +41,6 @@ type Payload struct {
 var JobQueue chan Job
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file. Rename sample.env file to .env")
-	}
-
-	Brokers = flag.String("brokers", os.Getenv("KAFKA_PEERS"), "The Kafka brokers to connect to, as a comma separated list")
-	MaxQueue = flag.String("max-queue", os.Getenv("MAX_QUEUE"), "The maximum queues")
-	MaxWorker = flag.String("max-worker", os.Getenv("MAX_WORKER"), "The maximum workers")
-	Verbose = flag.Bool("verbose", false, "Turn on Sarama logging")
 	flag.Parse()
 
 	if *Verbose {

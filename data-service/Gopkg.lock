@@ -33,7 +33,7 @@
 
 [[projects]]
   name = "github.com/joho/godotenv"
-  packages = ["."]
+  packages = [".","autoload"]
   revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
   version = "v1.2.0"
 
@@ -64,6 +64,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ea0b1e6ff8cf6ec4dc5c644eadac5095dd8d4690d0cbd9e32c1774d863acaca1"
+  inputs-digest = "57bf46bdedf4934fd8f80b273e7dac5677f7edd7e91af188f7e4dbc59f6cf0f1"
   solver-name = "gps-cdcl"
   solver-version = 1
