@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+
+// The authentication service definition.
+service Auth {
+  // Authentication mqtt client
+  rpc AuthClient (AuthRequest) returns (AuthResponse) {}
+}
+
+// The request message for AuthClient
+message AuthRequest {
+  string clientID = 1;
+  string username = 2;
+  string password = 3;
+}
+
+// The request message for AuthClient
+message AuthResponse {
+  string clientID = 1;
+  string username = 2;
+  string code = 3; // return 200 when success
+  string detail = 4; // a human-readable explanation
+}
