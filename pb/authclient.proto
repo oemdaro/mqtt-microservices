@@ -10,14 +10,14 @@ service Auth {
 
 // The request message for AuthClient
 message AuthRequest {
-  string clientID = 1;
+  string clientKey = 1;
   string username = 2;
-  string password = 3;
+  string clientSecret = 3;
 }
 
 // The request message for AuthClient
 message AuthResponse {
-  string clientID = 1;
+  string clientKey = 1;
   string username = 2;
   string code = 3; // return 200 when success
   string detail = 4; // a human-readable explanation
