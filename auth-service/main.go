@@ -121,7 +121,10 @@ func main() {
 			Username: dummy.Username,
 			Password: dummy.Password,
 			About:    dummy.About,
-			Clients:  []model.Client{{ClientKey: dummy.ClientKey, ClientSecret: dummy.ClientSecret, Description: dummy.Description}},
+			Clients: []model.Client{
+				{ClientKey: dummy.ClientKey + "-1", ClientSecret: dummy.ClientSecret, Description: dummy.Description},
+				{ClientKey: dummy.ClientKey + "-2", ClientSecret: dummy.ClientSecret, Description: dummy.Description},
+			},
 		}
 		db.Create(&user)
 		log.Println("Done create dummy data")
