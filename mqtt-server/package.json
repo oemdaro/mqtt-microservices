@@ -1,0 +1,58 @@
+{
+  "name": "mqtt-server",
+  "version": "1.0.0",
+  "description": "The Mosca based MQTT example",
+  "main": "main.js",
+  "scripts": {
+    "build": "gulp",
+    "dev": "babel-watch main.js",
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oemdaro/mqtt-microservices-example.git"
+  },
+  "keywords": [
+    "mqtt-server",
+    "mosca",
+    "node.js"
+  ],
+  "author": "Daro Oem <oemdaro@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oemdaro/mqtt-microservices-example/issues"
+  },
+  "homepage": "https://github.com/oemdaro/mqtt-microservices-example#readme",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "dependencies": {
+    "aedes": "^0.32.0",
+    "aedes-persistence-redis": "^5.1.0",
+    "async": "^2.6.0",
+    "bunyan": "^1.8.12",
+    "dotenv": "^4.0.0",
+    "env-var": "^3.0.2",
+    "grpc": "^1.7.2",
+    "joi": "^13.0.1",
+    "kafka-node": "^2.2.3",
+    "mqemitter-redis": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-watch": "^2.0.7",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "standard": "^10.0.3"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "ignore": [
+      "**/dist/",
+      "**/node_modules/"
+    ]
+  }
+}
