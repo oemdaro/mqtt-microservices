@@ -24,7 +24,7 @@ module.exports = (client, subscription, done) => {
     }
 
     if (topic[0] !== res) {
-      let errStr = `subscribe is not authorized, topic '${subscription.topic}' not match with client id '${client.id}'`
+      let errStr = `subscribe is not authorized, topic '${subscription.topic}' not match with the rule topic name: '{username}/{anything}' for client '${client.id}'`
       logger.warn(errStr)
       done(new Error(errStr))
       return
