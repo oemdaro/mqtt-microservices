@@ -45,6 +45,12 @@ redis.on('error', (err) => {
   logger.error(err.message)
 })
 
+// emits when a Client disconnects
+mqtt.on('clientDisconnect', (client) => {
+  logger.info(`remove Redis record for client '${client.id}'`)
+  redis.del('mqtt:client:' + client.id)
+})
+
 let exit = () => {
   logger.info('Graceful shutting down...')
   series([
