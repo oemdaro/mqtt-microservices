@@ -1,14 +1,20 @@
-package main
+package workque
 
 import (
-	"fmt"
 	"log"
 	"math/rand"
 	"sync"
 	"time"
+
+	"github.com/Shopify/sarama"
 )
 
 var quit = make(chan *sync.WaitGroup, 1)
+
+// Payload a Kafka consumer message
+type Payload struct {
+	Message sarama.ConsumerMessage
+}
 
 // Worker represents the worker that executes the job
 type Worker struct {
@@ -59,7 +65,8 @@ func (w Worker) Stop(wg *sync.WaitGroup) {
 
 // InsertIntoDB insert receive data into database
 func (p *Payload) InsertIntoDB() error {
+	log.Printf("worker process message - Topic: %s, Partition: %d, Offset: %d,\tMessageKey: %s,\tMessageValue: %s", p.Message.Topic, p.Message.Partition, p.Message.Offset, p.Message.Key, p.Message.Value)
 	time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond)
-	fmt.Println("work done")
+	log.Println("work done")
 	return nil
 }

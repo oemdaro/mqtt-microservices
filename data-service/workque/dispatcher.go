@@ -1,8 +1,16 @@
-package main
+package workque
 
 import (
 	"log"
 )
+
+// Job represents the job to be run
+type Job struct {
+	Payload Payload
+}
+
+// JobQueue a buffered channel that we can send work requests on.
+var JobQueue chan Job
 
 // Dispatcher struct of workers channels
 type Dispatcher struct {

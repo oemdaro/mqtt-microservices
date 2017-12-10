@@ -10,8 +10,9 @@ import (
 	"sync"
 	"syscall"
 
+	cluster "github.com/bsm/sarama-cluster"
 	_ "github.com/joho/godotenv/autoload"
-	"gopkg.in/Shopify/sarama.v1"
+	"github.com/oemdaro/mqtt-microservices-example/data-service/workque"
 )
 
 var (
@@ -21,31 +22,14 @@ var (
 	MaxQueue = flag.String("max-queue", os.Getenv("MAX_QUEUE"), "The maximum queues")
 	// MaxWorker max number of workers
 	MaxWorker = flag.String("max-worker", os.Getenv("MAX_WORKER"), "The maximum workers")
-	// Verbose use to turn on Sarama logging
-	Verbose = flag.Bool("verbose", false, "Turn on Sarama logging")
 	// signals we want to gracefully shutdown when it receives a SIGTERM or SIGINT
 	signals = make(chan os.Signal, 1)
 	done    = make(chan bool, 1)
 )
 
-// Job represents the job to be run
-type Job struct {
-	Payload Payload
-}
-
-// Payload the coming data payload
-type Payload struct {
-}
-
-// JobQueue a buffered channel that we can send work requests on.
-var JobQueue chan Job
-
 func main() {
 	flag.Parse()
 
-	if *Verbose {
-		sarama.Logger = log.New(os.Stdout, "[sarama] ", log.LstdFlags)
-	}
 	if *Brokers == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
@@ -71,11 +55,42 @@ func main() {
 	log.Printf("Kafka Brokers: %s", strings.Join(brokerList, ", "))
 	log.Printf("Max Worker: %s", *MaxWorker)
 
+	// init (custom) config, enable errors and notifications
+	config := cluster.NewConfig()
+	config.Consumer.Return.Errors = true
+	config.Group.Return.Notifications = true
+
+	// init consumer
+	topics := []string{"mqtt.data"}
+	consumer, err := cluster.NewConsumer(brokerList, "data-service-group", topics, config)
+	if err != nil {
+		panic(err)
+	}
+	defer func() {
+		if err := consumer.Close(); err != nil {
+			log.Printf("error occurred while closing consumer %s", err)
+		}
+	}()
+
+	// consume errors
+	go func() {
+		for err := range consumer.Errors() {
+			log.Printf("Error: %s\n", err.Error())
+		}
+	}()
+
+	// consume notifications
+	go func() {
+		for ntf := range consumer.Notifications() {
+			log.Printf("Rebalanced: %+v\n", ntf)
+		}
+	}()
+
 	var wg sync.WaitGroup
 	wg.Add(maxWorker)
 
-	JobQueue = make(chan Job, maxQueue)
-	dispatcher := NewDispatcher(maxWorker)
+	workque.JobQueue = make(chan workque.Job, maxQueue)
+	dispatcher := workque.NewDispatcher(maxWorker)
 	dispatcher.Run()
 
 	// Notify when receive SIGINT or SIGTERM
@@ -88,9 +103,19 @@ func main() {
 	go func() {
 		for {
 			select {
+			case msg, ok := <-consumer.Messages():
+				if ok {
+					// let's create a job with the message
+					work := workque.Job{Payload: workque.Payload{Message: *msg}}
+					log.Println("sending message to workque")
+					// Push the work onto the queue.
+					workque.JobQueue <- work
+					log.Println("sent message to workque")
+					consumer.MarkOffset(msg, "") // mark message as processed
+				}
 			case <-signals:
 				log.Println("Graceful shutting down...")
-				w := Worker{}
+				w := workque.Worker{}
 				for i := 0; i < maxWorker; i++ {
 					w.Stop(&wg)
 				}
