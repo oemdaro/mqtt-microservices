@@ -1,19 +1,20 @@
 package workque
 
 import (
+	"encoding/json"
 	"log"
-	"math/rand"
 	"sync"
 	"time"
 
-	"github.com/Shopify/sarama"
+	"github.com/gocql/gocql"
 )
 
 var quit = make(chan *sync.WaitGroup, 1)
 
-// Payload a Kafka consumer message
-type Payload struct {
-	Message sarama.ConsumerMessage
+// Data a MQTT payload model
+type Data struct {
+	Temperature string `json:"temperature"`
+	Humidity    string `json:"humidity"`
 }
 
 // Worker represents the worker that executes the job
@@ -33,15 +34,16 @@ func NewWorker(workerPool chan chan Job) Worker {
 // listening for a quit channel in case we need to stop it
 func (w Worker) Start() {
 	go func() {
-		// register the current worker into the worker queue.
-		w.WorkerPool <- w.JobChannel
-		log.Println("Worker started...")
+		log.Println("Worker started")
 
 		for {
+			// register the current worker into the worker queue.
+			w.WorkerPool <- w.JobChannel
+
 			select {
 			case job := <-w.JobChannel:
 				// we have received a work request.
-				if err := job.Payload.InsertIntoDB(); err != nil {
+				if err := job.InsertIntoDB(); err != nil {
 					log.Printf("Error inserting into database: %s", err.Error())
 				}
 
@@ -63,10 +65,18 @@ func (w Worker) Stop(wg *sync.WaitGroup) {
 	}()
 }
 
-// InsertIntoDB insert receive data into database
-func (p *Payload) InsertIntoDB() error {
-	log.Printf("worker process message - Topic: %s, Partition: %d, Offset: %d,\tMessageKey: %s,\tMessageValue: %s", p.Message.Topic, p.Message.Partition, p.Message.Offset, p.Message.Key, p.Message.Value)
-	time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond)
+// InsertIntoDB insert received data into database
+func (j *Job) InsertIntoDB() error {
+	log.Printf("worker process message - Topic: %s, Partition: %d, Offset: %d,\tMessageKey: %s,\tMessageValue: %s", j.Message.Topic, j.Message.Partition, j.Message.Offset, j.Message.Key, j.Message.Value)
+	var data Data
+	if err := json.Unmarshal(j.Message.Value, &data); err != nil {
+		return err
+	}
+
+	if err := j.DB.Query(`INSERT INTO data (id, username, temperature, humidity, timestamp) VALUES (?, ?, ?, ?, ?)`,
+		gocql.TimeUUID(), j.Message.Key, data.Temperature, data.Humidity, time.Now()).Exec(); err != nil {
+		return err
+	}
 	log.Println("work done")
 	return nil
 }
