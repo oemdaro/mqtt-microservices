@@ -39,9 +39,21 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/gocql/gocql"
+  packages = [".","internal/lru","internal/murmur","internal/streams"]
+  revision = "9ce8b08dfa5559eb86592129986654503cf40cf7"
+
+[[projects]]
+  branch = "master"
   name = "github.com/golang/snappy"
   packages = ["."]
   revision = "553a641470496b2327abcac10b36396bd98e45c9"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/hailocab/go-hostpool"
+  packages = ["."]
+  revision = "e80d13ce29ede4452c43dea11e79b9bc8a15b478"
 
 [[projects]]
   name = "github.com/joho/godotenv"
@@ -67,9 +79,15 @@
   packages = ["."]
   revision = "e181e095bae94582363434144c61a9653aff6e50"
 
+[[projects]]
+  name = "gopkg.in/inf.v0"
+  packages = ["."]
+  revision = "3887ee99ecf07df5b447e9b00d9c0b2adaa9f3e4"
+  version = "v0.9.0"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8742557115641a821bb02ed528512286e99b8b2266f0941fbc666cbb247f086d"
+  inputs-digest = "0aca51410970232295d3c9f4b37d4e0eb4b26144d5d29bab016b94ea9b64745e"
   solver-name = "gps-cdcl"
   solver-version = 1

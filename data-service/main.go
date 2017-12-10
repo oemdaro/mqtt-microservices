@@ -10,18 +10,28 @@ import (
 	"sync"
 	"syscall"
 
-	cluster "github.com/bsm/sarama-cluster"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/oemdaro/mqtt-microservices-example/data-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices-example/data-service/db"
+	"github.com/oemdaro/mqtt-microservices-example/data-service/kafka"
 	"github.com/oemdaro/mqtt-microservices-example/data-service/workque"
 )
 
 var (
-	// Brokers the kafka broker connection string
-	Brokers = flag.String("brokers", os.Getenv("KAFKA_PEERS"), "The Kafka brokers to connect to, as a comma separated list")
-	// MaxQueue max number of queue
-	MaxQueue = flag.String("max-queue", os.Getenv("MAX_QUEUE"), "The maximum queues")
-	// MaxWorker max number of workers
-	MaxWorker = flag.String("max-worker", os.Getenv("MAX_WORKER"), "The maximum workers")
+	// cassandraPeers the cassandra host string
+	cassandraPeers = flag.String("cassandras", os.Getenv("CASSANDRA_PEERS"), "The Cassandra database to connect to, as a comma separated list")
+	// cassandraKeyspace the cassandra keyspace
+	cassandraKeyspace = flag.String("keyspace", os.Getenv("CASSANDRA_KEYSPACE"), "The Cassandra keyspace")
+	// kafkaPeers the kafka broker host string
+	kafkaPeers = flag.String("brokers", os.Getenv("KAFKA_PEERS"), "The Kafka brokers to connect to, as a comma separated list")
+	// kafkaGroupID the kafka consumer group id
+	kafkaGroupID = flag.String("group-id", "data-service-group", "The Kafka consumer group id")
+	// kafkaPeers the kafka topics string
+	kafkaTopics = flag.String("topics", os.Getenv("KAFKA_TOPICS"), "The Kafka topics to subscribe to, as a comma separated list")
+	// numMaxQueue max number of numMaxQueue
+	numMaxQueue = flag.String("max-queue", os.Getenv("MAX_QUEUE"), "The maximum queues")
+	// numMaxWorker max number of workers
+	numMaxWorker = flag.String("max-worker", os.Getenv("MAX_WORKER"), "The maximum workers")
 	// signals we want to gracefully shutdown when it receives a SIGTERM or SIGINT
 	signals = make(chan os.Signal, 1)
 	done    = make(chan bool, 1)
@@ -30,41 +40,53 @@ var (
 func main() {
 	flag.Parse()
 
-	if *Brokers == "" {
+	if *cassandraPeers == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	if *MaxWorker == "" {
+	if *kafkaPeers == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	if *MaxQueue == "" {
+	if *numMaxWorker == "" {
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	maxWorker, err := strconv.Atoi(*MaxWorker)
+	if *numMaxQueue == "" {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
+	maxWorker, err := strconv.Atoi(*numMaxWorker)
 	if err != nil {
-		log.Printf("Invalid MAX_WORKERS value: %s", err)
+		log.Fatalf("Invalid MAX_WORKERS value: %s", err)
 	}
-	maxQueue, err := strconv.Atoi(*MaxWorker)
+	maxQueue, err := strconv.Atoi(*numMaxQueue)
 	if err != nil {
-		log.Printf("Invalid MAX_WORKERS value: %s", err)
+		log.Fatalf("Invalid MAX_WORKERS value: %s", err)
 	}
+	log.Printf("Max Queue: %s, Max Worker: %s", *numMaxQueue, *numMaxWorker)
 
-	brokerList := strings.Split(*Brokers, ",")
+	cassandraList := strings.Split(*cassandraPeers, ",")
+	log.Printf("Cassandra Peers: %s", strings.Join(cassandraList, ", "))
+	log.Printf("Cassandra Keyspace: %s", *cassandraKeyspace)
+
+	brokerList := strings.Split(*kafkaPeers, ",")
 	log.Printf("Kafka Brokers: %s", strings.Join(brokerList, ", "))
-	log.Printf("Max Worker: %s", *MaxWorker)
+	topics := strings.Split(*kafkaTopics, ",")
+	log.Printf("Kafka Topics: %s", strings.Join(topics, ", "))
 
-	// init (custom) config, enable errors and notifications
-	config := cluster.NewConfig()
-	config.Consumer.Return.Errors = true
-	config.Group.Return.Notifications = true
+	// Load configuration
+	appconfig.Load(cassandraList, *cassandraKeyspace, brokerList, *kafkaGroupID, topics)
 
-	// init consumer
-	topics := []string{"mqtt.data"}
-	consumer, err := cluster.NewConsumer(brokerList, "data-service-group", topics, config)
+	cassandraDB, err := db.NewDB()
 	if err != nil {
-		panic(err)
+		log.Fatalf("error occurred while try to connect to Cassandra %s", err)
+	}
+	defer cassandraDB.Close()
+
+	consumer, err := kafka.NewConsumer()
+	if err != nil {
+		log.Fatalf("error occurred while try to connect to Kafka brokers %s", err)
 	}
 	defer func() {
 		if err := consumer.Close(); err != nil {
@@ -106,7 +128,10 @@ func main() {
 			case msg, ok := <-consumer.Messages():
 				if ok {
 					// let's create a job with the message
-					work := workque.Job{Payload: workque.Payload{Message: *msg}}
+					work := workque.Job{
+						DB:      cassandraDB,
+						Message: msg,
+					}
 					log.Println("sending message to workque")
 					// Push the work onto the queue.
 					workque.JobQueue <- work

@@ -2,11 +2,15 @@ package workque
 
 import (
 	"log"
+
+	"github.com/Shopify/sarama"
+	"github.com/oemdaro/mqtt-microservices-example/data-service/db"
 )
 
 // Job represents the job to be run
 type Job struct {
-	Payload Payload
+	DB      *db.DB
+	Message *sarama.ConsumerMessage
 }
 
 // JobQueue a buffered channel that we can send work requests on.
