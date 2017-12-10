@@ -16,7 +16,7 @@ module.exports = (packet, client, done) => {
   }
 
   let payloads = [
-    {topic: 'mqtt.data', messages: packet.payload}
+    {topic: 'mqtt.data', key: client.id, messages: packet.payload}
   ]
   producer.send(payloads, (err, data) => {
     if (err) {
