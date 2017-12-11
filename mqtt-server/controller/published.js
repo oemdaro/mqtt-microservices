@@ -1,5 +1,6 @@
 const producer = require('../kafka')
 const logger = require('../logger')
+const config = require('../config')
 
 /**
  * Send a valid packet into kafka for later process
@@ -16,7 +17,7 @@ module.exports = (packet, client, done) => {
   }
 
   let payloads = [
-    {topic: 'mqtt.data', key: client.id, messages: packet.payload}
+    {topic: config.kafka.topic, key: client.id, messages: packet.payload}
   ]
   producer.send(payloads, (err, data) => {
     if (err) {
