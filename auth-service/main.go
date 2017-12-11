@@ -1,4 +1,4 @@
-//go:generate protoc -I ../model --go_out=plugins=grpc:../model ../model/authclient.proto
+//go:generate protoc -I ../pb --go_out=plugins=grpc:../pb ../pb/authclient.proto
 
 package main
 
