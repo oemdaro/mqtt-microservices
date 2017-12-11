@@ -21,4 +21,7 @@ $ docker run -t -i --rm --network="host" --env MYSQL_HOST=localhost:3306 --env M
 $ # start mqtt-server
 $ docker run -t -i --rm --network="host" local/mqtt-server
 ```
-s
+
+## Run on Kubernetes
+
+> Update soon...
