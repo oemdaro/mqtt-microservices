@@ -1,36 +1,27 @@
 const env = require('env-var')
 
+const sentinels = [
+  {
+    port: env.get('REDIS_SENTINELS_PORT_1', '26380').asIntPositive(),
+    host: env.get('REDIS_SENTINELS_HOST_1', '127.0.0.1').asString()
+  }, {
+    port: env.get('REDIS_SENTINELS_PORT_2', '26381').asIntPositive(),
+    host: env.get('REDIS_SENTINELS_HOST_2', '127.0.0.1').asString()
+  }, {
+    port: env.get('REDIS_SENTINELS_PORT_3', '26382').asIntPositive(),
+    host: env.get('REDIS_SENTINELS_HOST_3', '127.0.0.1').asString()
+  }
+]
+
 const cache = {
-  sentinels: [
-    {
-      port: env.get('REDIS_PORT', '26380').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26381').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26382').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }
-  ],
+  sentinels: sentinels,
   name: 'mymaster',
   // password: env.get('REDIS_PASSWORD', 'mysecret').asString(),
   db: env.get('REDIS_CACHE_DB', '1').asIntPositive()
 }
 
 const persistence = {
-  sentinels: [
-    {
-      port: env.get('REDIS_PORT', '26380').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26381').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26382').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }
-  ],
+  sentinels: sentinels,
   name: 'mymaster',
   // password: env.get('REDIS_PASSWORD', 'mysecret').asString(),
   db: env.get('REDIS_PERSISTENCE_DB', '3').asIntPositive(),
@@ -41,18 +32,7 @@ const persistence = {
 }
 
 const mq = {
-  sentinels: [
-    {
-      port: env.get('REDIS_PORT', '26380').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26381').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }, {
-      port: env.get('REDIS_PORT', '26382').asIntPositive(),
-      host: env.get('REDIS_HOST', '127.0.0.1').asString()
-    }
-  ],
+  sentinels: sentinels,
   name: 'mymaster',
   // password: env.get('REDIS_PASSWORD', 'mysecret').asString(),
   db: env.get('REDIS_MQ_DB', '4').asIntPositive()
@@ -74,6 +54,7 @@ module.exports = {
   },
   kafka: {
     peers: env.get('KAFKA_PEERS', 'localhost:9092').asString(),
+    topic: env.get('KAFKA_TOPIC', 'mqtt.data').asString(),
     connectTimeout: env.get('KAFKA_CONNECT_TIMEOUT', '10000').asIntPositive(),
     requestTimeout: env.get('KAFKA_REQUEST_TIMEOUT', '30000').asIntPositive(),
     autoConnect: env.get('KAFKA_AUTO_CONNECT', 'true').asBool()
