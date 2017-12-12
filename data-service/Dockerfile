@@ -1,7 +1,14 @@
 FROM golang:1.9-alpine3.6
 
+WORKDIR /go/src/github.com/oemdaro/mqtt-microservices-example/data-service
+
 ADD . /go/src/github.com/oemdaro/mqtt-microservices-example/data-service
 
-RUN go install github.com/oemdaro/mqtt-microservices-example/data-service
+RUN apk --no-cache add --virtual deps \
+  git && \
+  go get -u github.com/golang/dep/cmd/dep && \
+  /go/bin/dep ensure && \
+  go install && \
+  apk del deps
 
 ENTRYPOINT ["/go/bin/data-service"]
