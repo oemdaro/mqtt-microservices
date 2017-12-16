@@ -40,8 +40,8 @@
 [[projects]]
   branch = "master"
   name = "github.com/oemdaro/mqtt-microservices-example"
-  packages = ["pb"]
-  revision = "d9842c6daf32e1074d5a49b5aaefc81125eca37a"
+  packages = ["auth-service/appconfig","auth-service/model","pb"]
+  revision = "3a9efaac30e1521d3514b821db964bebef5dcc12"
 
 [[projects]]
   branch = "master"
@@ -76,6 +76,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "b3943405ca9a2f391b7f0cdde041c0124bed8085a7a6e5696a1b1e285871d684"
+  inputs-digest = "3ae8e508434731d147712cc767466471792062384a61ee44238e7019a96d2c78"
   solver-name = "gps-cdcl"
   solver-version = 1

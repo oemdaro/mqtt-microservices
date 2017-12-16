@@ -62,6 +62,12 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/oemdaro/mqtt-microservices-example"
+  packages = ["data-service/appconfig","data-service/db","data-service/kafka","data-service/workque"]
+  revision = "3a9efaac30e1521d3514b821db964bebef5dcc12"
+
+[[projects]]
   name = "github.com/pierrec/lz4"
   packages = ["."]
   revision = "08c27939df1bd95e881e2c2367a749964ad1fceb"
@@ -88,6 +94,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "0aca51410970232295d3c9f4b37d4e0eb4b26144d5d29bab016b94ea9b64745e"
+  inputs-digest = "070116958608f1d8c62b863d7bb29522c84978130986d3b0b06841982cd72582"
   solver-name = "gps-cdcl"
   solver-version = 1
