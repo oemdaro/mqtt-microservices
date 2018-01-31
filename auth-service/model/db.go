@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // nolint: golint
-	"github.com/oemdaro/mqtt-microservices-example/auth-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/auth-service/appconfig"
 )
 
 // Datastore interface for easily mock up

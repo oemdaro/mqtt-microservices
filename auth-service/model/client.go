@@ -5,7 +5,7 @@ import (
 
 	"github.com/gtank/cryptopasta"
 	"github.com/jinzhu/gorm"
-	"github.com/oemdaro/mqtt-microservices-example/auth-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/auth-service/appconfig"
 )
 
 type (

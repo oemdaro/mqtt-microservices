@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/gocql/gocql"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/data-service/appconfig"
 )
 
 // DB is an instant hold database session

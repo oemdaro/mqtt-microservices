@@ -2,7 +2,7 @@ package kafka
 
 import (
 	cluster "github.com/bsm/sarama-cluster"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/data-service/appconfig"
 )
 
 // NewConsumer return new Kafka consumer group

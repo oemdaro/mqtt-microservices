@@ -1,4 +1,4 @@
-# mqtt-microservices-example
+# mqtt-microservices
 
 The example of MQTT microservices based system build on top of Node.js, Go (Golang), gRPC and Apache Kafka
 
@@ -7,7 +7,7 @@ The example of MQTT microservices based system build on top of Node.js, Go (Gola
 To build docker images of our app run the following command
 
 ```bash
-$ cd $GOPATH/src/github.com/oemdaro/mqtt-microservices-example
+$ cd $GOPATH/src/github.com/oemdaro/mqtt-microservices
 $ make
 ```
 

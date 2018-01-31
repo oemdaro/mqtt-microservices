@@ -63,7 +63,7 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/oemdaro/mqtt-microservices-example"
+  name = "github.com/oemdaro/mqtt-microservices"
   packages = ["data-service/appconfig","data-service/db","data-service/kafka","data-service/workque"]
   revision = "3a9efaac30e1521d3514b821db964bebef5dcc12"
 

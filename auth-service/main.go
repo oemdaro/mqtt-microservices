@@ -15,9 +15,9 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/oemdaro/mqtt-microservices-example/auth-service/appconfig"
-	"github.com/oemdaro/mqtt-microservices-example/auth-service/model"
-	"github.com/oemdaro/mqtt-microservices-example/pb"
+	"github.com/oemdaro/mqtt-microservices/auth-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/auth-service/model"
+	"github.com/oemdaro/mqtt-microservices/pb"
 	"google.golang.org/grpc"
 )
 

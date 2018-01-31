@@ -11,10 +11,10 @@ import (
 	"syscall"
 
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/appconfig"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/db"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/kafka"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/workque"
+	"github.com/oemdaro/mqtt-microservices/data-service/appconfig"
+	"github.com/oemdaro/mqtt-microservices/data-service/db"
+	"github.com/oemdaro/mqtt-microservices/data-service/kafka"
+	"github.com/oemdaro/mqtt-microservices/data-service/workque"
 )
 
 var (

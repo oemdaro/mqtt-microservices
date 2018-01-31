@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/Shopify/sarama"
-	"github.com/oemdaro/mqtt-microservices-example/data-service/db"
+	"github.com/oemdaro/mqtt-microservices/data-service/db"
 )
 
 // Job represents the job to be run

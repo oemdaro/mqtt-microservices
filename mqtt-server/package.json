@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/oemdaro/mqtt-microservices-example.git"
+    "url": "git+ssh://git@github.com/oemdaro/mqtt-microservices.git"
   },
   "keywords": [
     "mqtt-server",
@@ -21,9 +21,9 @@
   "author": "Daro Oem <oemdaro@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oemdaro/mqtt-microservices-example/issues"
+    "url": "https://github.com/oemdaro/mqtt-microservices/issues"
   },
-  "homepage": "https://github.com/oemdaro/mqtt-microservices-example#readme",
+  "homepage": "https://github.com/oemdaro/mqtt-microservices#readme",
   "engines": {
     "node": ">=8.9.0"
   },
