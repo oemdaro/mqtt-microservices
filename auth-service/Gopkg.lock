@@ -8,7 +8,6 @@
   version = "v1.3"
 
 [[projects]]
-  branch = "master"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -17,7 +16,8 @@
     "ptypes/duration",
     "ptypes/timestamp"
   ]
-  revision = "1e59b77b52bf8e4b449a57e6f79f21226d571845"
+  revision = "925541529c1fa6821df4e44ce2723319eb2be768"
+  version = "v1.0.0"
 
 [[projects]]
   branch = "master"
@@ -53,7 +53,7 @@
   branch = "master"
   name = "github.com/oemdaro/mqtt-microservices"
   packages = ["pb"]
-  revision = "3a9efaac30e1521d3514b821db964bebef5dcc12"
+  revision = "aca445569420666863fdb1f7cae27ab47066a2cc"
 
 [[projects]]
   branch = "master"
@@ -62,7 +62,7 @@
     "bcrypt",
     "blowfish"
   ]
-  revision = "b080dc9a8c480b08e698fb1219160d598526310f"
+  revision = "1875d0a70c90e57f11972aefd42276df65e895b9"
 
 [[projects]]
   branch = "master"
@@ -76,7 +76,7 @@
     "lex/httplex",
     "trace"
   ]
-  revision = "c7086645de248775cbf2373cf5ca4d2fa664b8c1"
+  revision = "0ed95abb35c445290478a5348a7b38bb154135fd"
 
 [[projects]]
   branch = "master"
@@ -97,19 +97,20 @@
     "unicode/norm",
     "unicode/rangetable"
   ]
-  revision = "88f656faf3f37f690df1a32515b479415e1a6769"
+  revision = "e19ae1496984b1c655b8044a65c0300a3c878dd3"
 
 [[projects]]
   branch = "master"
   name = "google.golang.org/genproto"
   packages = ["googleapis/rpc/status"]
-  revision = "7f0da29060c682909f650ad8ed4e515bd74fa12a"
+  revision = "4eb30f4778eed4c258ba66527a0d4f9ec8a36c45"
 
 [[projects]]
   name = "google.golang.org/grpc"
   packages = [
     ".",
     "balancer",
+    "balancer/base",
     "balancer/roundrobin",
     "codes",
     "connectivity",
@@ -130,12 +131,12 @@
     "tap",
     "transport"
   ]
-  revision = "5a9f7b402fe85096d2e1d0383435ee1876e863d0"
-  version = "v1.8.0"
+  revision = "6b51017f791ae1cfbec89c52efdf444b13b550ef"
+  version = "v1.9.2"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "62cfc26318be678a190177c44847abe4cb80139a26365a062df0aa03aded3edd"
+  inputs-digest = "6d8492410a01958f14181e29f863bd4e91957b865350bb2290fb733cec8665fc"
   solver-name = "gps-cdcl"
   solver-version = 1

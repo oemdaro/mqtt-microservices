@@ -10,8 +10,8 @@
 [[projects]]
   name = "github.com/bsm/sarama-cluster"
   packages = ["."]
-  revision = "abf039439f66c1ce78017f560b490612552f6472"
-  version = "v2.1.10"
+  revision = "24016d206c730276dfb58f802999066f2f4bfeaa"
+  version = "v2.1.11"
 
 [[projects]]
   name = "github.com/davecgh/go-spew"
@@ -40,8 +40,13 @@
 [[projects]]
   branch = "master"
   name = "github.com/gocql/gocql"
-  packages = [".","internal/lru","internal/murmur","internal/streams"]
-  revision = "9ce8b08dfa5559eb86592129986654503cf40cf7"
+  packages = [
+    ".",
+    "internal/lru",
+    "internal/murmur",
+    "internal/streams"
+  ]
+  revision = "dd47639f787e8583e1a13e17e20a9f6c4332bc29"
 
 [[projects]]
   branch = "master"
@@ -57,21 +62,18 @@
 
 [[projects]]
   name = "github.com/joho/godotenv"
-  packages = [".","autoload"]
+  packages = [
+    ".",
+    "autoload"
+  ]
   revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
   version = "v1.2.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/oemdaro/mqtt-microservices"
-  packages = ["data-service/appconfig","data-service/db","data-service/kafka","data-service/workque"]
-  revision = "3a9efaac30e1521d3514b821db964bebef5dcc12"
-
-[[projects]]
   name = "github.com/pierrec/lz4"
   packages = ["."]
-  revision = "08c27939df1bd95e881e2c2367a749964ad1fceb"
-  version = "v1.0.1"
+  revision = "2fcda4cb7018ce05a25959d2fe08c83e3329f169"
+  version = "v1.1"
 
 [[projects]]
   name = "github.com/pierrec/xxHash"
@@ -83,7 +85,7 @@
   branch = "master"
   name = "github.com/rcrowley/go-metrics"
   packages = ["."]
-  revision = "e181e095bae94582363434144c61a9653aff6e50"
+  revision = "8732c616f52954686704c8645fe1a9d59e9df7c1"
 
 [[projects]]
   name = "gopkg.in/inf.v0"
@@ -94,6 +96,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "070116958608f1d8c62b863d7bb29522c84978130986d3b0b06841982cd72582"
+  inputs-digest = "760fe1cfa85ee1c1e27735c015795bdc7c735626dd4d30a05ef28396b91c897c"
   solver-name = "gps-cdcl"
   solver-version = 1
