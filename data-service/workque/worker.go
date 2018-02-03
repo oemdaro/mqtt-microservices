@@ -5,8 +5,6 @@ import (
 	"log"
 	"sync"
 	"time"
-
-	"github.com/gocql/gocql"
 )
 
 var quit = make(chan *sync.WaitGroup, 1)
@@ -73,8 +71,8 @@ func (j *Job) InsertIntoDB() error {
 		return err
 	}
 
-	if err := j.DB.Query(`INSERT INTO data (id, username, temperature, humidity, timestamp) VALUES (?, ?, ?, ?, ?)`,
-		gocql.TimeUUID(), j.Message.Key, data.Temperature, data.Humidity, time.Now()).Exec(); err != nil {
+	if err := j.DB.Query(`INSERT INTO data (station_id, temperature, humidity, event_time) VALUES (?, ?, ?, ?)`,
+		"123abc", data.Temperature, data.Humidity, time.Now()).Exec(); err != nil {
 		return err
 	}
 	log.Println("work done")
